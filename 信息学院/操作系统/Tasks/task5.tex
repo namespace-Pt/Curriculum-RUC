@@ -1,0 +1,60 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{dirtree}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage[a4paper]{geometry} 
+\usepackage{amsmath,amsthm,mathtools}
+\usepackage{mathtools}
+\usepackage{diagbox}
+\usepackage{multirow,makecell}
+\usepackage{url}
+\geometry{bottom=2cm}
+\newcommand{\refe}[1]{Eq.\ref{#1}}
+\newtheorem{theory}{Theory}[section]
+\title{task5}
+\author{张配天-2018202180}
+\begin{document}
+    \maketitle
+    \section{7.5}
+    \subsection{a}
+    \begin{enumerate}[1.]
+        \item 对比首次匹配，最差匹配\textbf{坏处}在于搜索过程更长需要更多时间，\textbf{好处}在于由于分配产生的内部碎片在之后会被更充分的利用；
+        \item 对比下次匹配，最差匹配\textbf{坏处}在于搜索过程更长需要更多时间，\textbf{好处}在于由于分配产生的内存碎片在之后会被更充分的利用；
+        \item 对比最佳匹配，最差匹配\textbf{坏处}在于对于单个进程浪费的存储空间很大，\textbf{好处}在于由于分配产生的内存碎片在之后会被更充分的利用；
+    \end{enumerate}
+    \subsection{b}
+    $\Omega(n)$
+    
+    \section{7.7}
+    如图
+    \begin{figure}[htb]
+        \centering
+        \includegraphics[width=12cm]{resources/2020-06-04_13-34-13.png}
+        \caption{分配表}
+        \label{}
+    \end{figure}
+    \section{7.12}
+    \subsection{a}
+    $1G=2^{30}\, bytes$,因此$2G=2^{31}\, bytes$，即共需要31比特。
+    \subsection{b}
+    $1K=2^{10}\, bytes，1M=2^{11}\, bytes$
+    \begin{itemize}
+        \item 对于每个进程，都包含$\frac{256*2^{20}}{8*2^{10}} = 2^{15}$个页，所以每个进程需要15比特存储页号。
+        \item 对于整个内存空间，都包含$\frac{2*2^{30}}{8*2^{10}} = 2^{18}$个页框，所以每个进程需要18个比特存储页框号。
+    \end{itemize}
+    \subsection{c}
+    $2^{18}$
+    \subsection{d}
+    一个n+m位的地址，前n位表示该进程存的页号，后m位表示页内偏移量。\par 
+    这里n=15，m=18。
+    \section{7.14}
+    \begin{enumerate}[a.]
+        \item 物理地址：830+228 = 1058；
+        \item $658>408$，因此产生段错误；
+        \item 物理地址：770+776 = 1546；
+        \item 物理地址：648+98=746；
+        \item $240>110$，因此产生段错误；
+    \end{enumerate}
+\end{document}

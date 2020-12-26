@@ -1,0 +1,79 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{dirtree}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage[a4paper]{geometry} 
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{diagbox}
+\usepackage{multirow,makecell}
+
+\title{Task 1}
+\author{张配天-2018202180}
+\date{}
+\geometry{bottom=2cm,head=2cm}
+\begin{document}
+    \maketitle
+    \section*{4.4}
+    对于一个需要调用I/O设备的进程,在单核处理器的计算机下(不能同时运行两个线程),考虑其在两种模式下工作的情况:
+    \begin{enumerate}[i.]
+        \item \textbf{单线程情况}:进程在发送I/O请求后会一直在就绪态/就绪挂起态等待I/O设备的响应;此时进程的其他部分都无法得到处理器资源,不会运行;直到得到I/O设备响应才会继续运行。
+        \item \textbf{多线程情况}:不妨假设进程分为两个线程,调用I/O设备的和其余部分,记为T1和T2;这样,在T1请求I/O设备进入等待时,T2不会受到影响,仍然可以得到处理器资源,可以继续运行。
+    \end{enumerate}
+    \qquad 因此,多线程情况的效率显然高于单线程。
+
+    \section*{4.5}
+    利用公式:\\
+    \begin{equation*}
+        time\_ratio = \frac{1}{(1-percent) + \frac{percent}{processor}}
+    \end{equation*}
+    \qquad 计算得到新速度约为原执行速度的2.5倍
+
+    \section*{4.7}
+    \begin{enumerate}[a.]
+        \item 程序完成对一个list链表结构体中val值为正数的个数的计数
+        \item 在此种情况下,程序可以正确执行。因为在这种情况下,线程b的内容不会被激活执行,即线程b不会对该全局变量进行修改。而传入的为所有值均为负的链表,global\_positive的初值为0,因此结果正确。
+    \end{enumerate}
+    \clearpage
+    \section*{4.9}
+    \begin{enumerate}[a.]
+        \item 程序在主函数中输出‘o’,在定义的线程中输出‘.’,同时两者都使myglobal值加1
+        \item 
+             \textbf{显然不是想得到的结果。}\\
+             记主函数的线程为T1,子线程为T2,由于T1和T2隶属于同一个进程(thred2.c),两者资源共享,即共享myglobal。又因为子线程中不是直接执行myglobal++来更新myglobal的值,而是分成三步: \\
+             \begin{gather}
+                 j = myglobal\\
+                 j = j+1\\
+                 myglobal = j
+             \end{gather}
+             考虑这种情况:\emph{myglobal初值为0。}\par 
+             \begin{table}[h]
+                 \centering
+                 
+                 \begin{tabular}{cp{6cm}cc}
+                 \hline
+                 处于激活态的线程&操作系统动作&myglobal值&j值(T2中)\\
+                 \hline
+                 ……\\
+                 T2&执行到(3)前,由于调用I/O设备而导致T2阻塞,激活T1&0&1\\
+                 T1&myglobal = myglobal+1&1&1\\
+                 T1&由于调用I/O设备而导致T1阻塞,激活T2&1&1\\
+                 T2&执行(3)&1&1\\
+                 ……\\
+                 \hline        
+                 \end{tabular}
+             \end{table}
+             %在T2创建后,刚执行到(2)时,此时j值为1,myglobal值仍为0;由于之后T2要调用I/O设备,因此分派器将T2阻塞,调度T1并激活,这时执行了myglobal = myglobal+1的指令,则myglobal值为1,
+             %之后由于T1调用I/O设备,分派器又调度T2并激活,执行(3),但执行后myglobal仍为1。\\
+             \textbf{因此,在这样一次循环中,程序并没有完成其目的(让myglobal=myglobal+2)}\\
+             即使加入sleep(),也无法保证T1,T2运行的互不干扰。因此,按照这种方式运行的程序,其myglobal最终结果一定\emph{大于等于20且小于等于40},而具体是多少,以及
+             字符出现的顺序,都是不可期的。
+    \end{enumerate}
+    \section*{疑问}
+    \begin{itemize}
+        \item 4.7中若传入的是含有正数的链表,结果会如何?
+        \item 将4.9中代码复制到ubuntu中运行,虽然字符出现顺序不同,但myglobal最终值永远是21,这是为什么?(\emph{debug失败})
+    \end{itemize}
+\end{document}

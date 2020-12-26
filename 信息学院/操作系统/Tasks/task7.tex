@@ -1,0 +1,123 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{dirtree}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage[a4paper]{geometry} 
+\usepackage{amsmath,amsthm,mathtools}
+\usepackage{mathtools}
+\usepackage{diagbox}
+\usepackage{multirow,makecell}
+\usepackage{url}
+\geometry{bottom=2cm}
+\newcommand{\refe}[1]{Eq.\ref{#1}}
+\newtheorem{theory}{Theory}[section]
+\title{第九章作业}
+\author{张配天-2018202180}
+\begin{document}
+    \maketitle
+    \section*{9.1}
+    \subsection*{a}
+    \begin{table}[htb]
+    \centering
+
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        1&1&2&2&1&1&1&4&4&4&4&3&3&3&3&3&3&3&3&3&3\\
+        \hline
+        \end{tabular}
+        \caption{SRT}
+
+    \end{table}
+    \begin{table}[htb]
+    \centering
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        1&1&2&2&3&3&4&4&4&4&3&3&3&3&3&3&3&3&1&1&1\\
+        \hline    
+        \end{tabular}
+        \caption{priority}
+    \end{table}
+    \begin{table}[htb]
+    \centering
+
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        1&1&1&2&2&3&3&3&4&4&4&1&1&3&3&3&3&4&3&3&3\\
+        \hline    
+        \end{tabular}
+        \caption{round robin}
+    \end{table}
+    \subsection*{b}
+    \begin{itemize}
+        \item SRT:$t = \frac{20 + 10 + 70 }{4}= 25(ms)$
+        \item priority:$t = \frac{30+70+10}{4}= 27.5(ms)$
+        \item round robin:$t \frac{10+70+20+70}{4} = 42.5(ms) $
+    \end{itemize}
+    \section*{9.16}
+    
+    \begin{table}[htb]
+    \caption{时间片轮转}
+        \begin{center}
+            \begin{tabular}{ccc}
+                \hline
+                进程&周转时间&平均周转时间\\
+                a&75\\
+                b&45\\
+                c&15\\
+                d&30\\
+                e&60&$\frac{45+35+13+26+42}{5} = 32.2$\\
+                \hline
+            \end{tabular}
+        \end{center}
+    \end{table}
+    
+    \begin{table}[htb]
+    \caption{优先级}
+        \begin{center}
+            \begin{tabular}{ccc}
+                \hline
+                进程&周转时间&平均周转时间\\
+                a&36\\
+                b&9\\
+                c&39\\
+                d&45\\
+                e&21&$\frac{36+9+39+45+21}{5} = 30$\\
+                \hline
+            \end{tabular}
+        \end{center}
+    \end{table}
+    
+    \begin{table}[htb]
+        \begin{center}
+        \caption{先来先服务}
+            \begin{tabular}{ccc}
+                \hline
+                进程&周转时间&平均周转时间\\
+                a&15\\
+                b&24\\
+                c&27\\
+                d&33\\
+                e&45&$\frac{15+24+27+33+45}{5} = 28.8$\\
+                \hline
+            \end{tabular}
+        \end{center}
+    \end{table}
+    
+    \begin{table}[htb]
+        \begin{center}
+        \caption{最短优先}
+            \begin{tabular}{ccc}
+                \hline
+                进程&周转时间&平均周转时间\\
+                a&45\\
+                b&18\\
+                c&3\\
+                d&9\\
+                e&30&$\frac{45+48+3+9+30}{5} = 21$\\
+                \hline
+            \end{tabular}
+        \end{center}
+    \end{table}
+\end{document}
