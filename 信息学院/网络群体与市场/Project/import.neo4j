@@ -1,0 +1,1 @@
+bin\neo4j-admin import --nodes=import/Nodes_whole.csv --relationships=import/Relationships_whole.csv
