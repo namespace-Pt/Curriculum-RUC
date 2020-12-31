@@ -1,0 +1,37 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{dirtree}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage[a4paper]{geometry} 
+\usepackage{amsmath,amsthm,mathtools}
+\usepackage{mathtools}
+\usepackage{diagbox}
+\usepackage{multirow,makecell}
+\usepackage{url}
+\geometry{bottom=2cm}
+\newcommand{\refe}[1]{Eq.\ref{#1}}
+\newtheorem{theory}{Theory}[section]
+\title{第十二章作业}
+\author{张配天-2018202180}
+\begin{document}
+    \maketitle
+    \section*{12.2}
+    \subsection*{a}
+    由题，假设最多有k个入口，则$2^0+2^1+ \dots +2^{k-1} = \frac{n}{F}$,计算得$2^k = \frac{n}{F}+1$，
+    因此$k = \log_{2}^{\frac{n}{F}+1}$
+    \subsection*{b}
+    当总空间为$2^k - 1$时，未被使用的最大空间为$2^{k-1}-1$。
+    \section*{12.7}
+    考虑硬盘读取数据的位置，最佳情况和最差情况均需要移动磁头，因此25ms不变，区别在于最佳情况为要查询
+    数据在数据区的第一个位置且无需旋转延迟，最差情况为磁盘需要转一圈且查询数据位于最后的数据块。
+    \begin{itemize}
+        \item 最小时间=25+0.25=25.25ms
+        \item 最大时间=25+2.5*2+0.25*100=55ms
+        \item 平均时间=$\frac{25.25+55}{2}$=40.125ms
+    \end{itemize}
+    \section*{12.12}
+    使用二级索引可以减小平均查找开销。如果只使用一级索引，则查找的开销为500万，使用二级索引，开销为$50+5000 = 5050$，提升了访问速度。
+    
+\end{document}

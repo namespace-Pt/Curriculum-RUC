@@ -1,0 +1,166 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{dirtree}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage[a4paper]{geometry} 
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{diagbox}
+\usepackage{multirow,makecell}
+
+\title{Task 3}
+\author{张配天-2018202180}
+\date{}
+\geometry{bottom=2cm}
+
+\lstset{
+ columns=fixed,       
+ numbers=left,                                        % 在左侧显示行号
+ numberstyle=\tiny\color{gray},                       % 设定行号格式
+ basicstyle=\ttfamily,
+ frame=none,                                          % 不显示背景边框
+ backgroundcolor=\color[RGB]{245,245,244},            % 设定背景颜色
+ keywordstyle=\color[RGB]{40,40,255},                 % 设定关键字颜色
+ numberstyle=\footnotesize\color{darkgray},           
+ commentstyle=\color{gray}\ttfamily,                % 设置代码注释的格式
+ stringstyle=\rmfamily\slshape\color[RGB]{128,0,0},   % 设置字符串格式
+ showstringspaces=false,
+ breaklines=true,
+ language=c++
+}
+
+\begin{document}
+    \maketitle
+    \section{5.6}
+    \subsection{a}
+    X=7,Y=28
+    \subsection{b}
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{ccc}
+            \hline
+            operation&value of X&value of y\\
+            LOAD R1,X&2&3\\
+            LOAD R2,Y&2&3\\
+            MUL R1,R2&2&3\\
+            STORE X,R1&6&3\\
+            INC R2&6&3\\
+            STORE Y,R2&6&4\\
+            LOAD R3,X&6&4\\
+            INC R3&6&4\\
+            LOAD R4,Y&6&4\\
+            MUL R4,R3&6&4\\
+            STORE X,R3&7&4\\
+            STORE Y,R4&7&28\\
+            \hline
+        \end{tabular}
+    \end{table}
+    \subsection{c}
+    可以用不同的调度使得X得到返回值6,Y返回值9
+    \begin{table}[htb]
+        \centering
+        \begin{tabular}{ccc}
+            \hline
+            operation&value of X&value of Y\\
+            LOAD R3,X&2&3\\
+            INC R3&2&3\\
+            LOAD R4,Y&2&3\\
+            MUL R4,R3&2&3\\
+            LOAD R1,X&2&3\\
+            LOAD R2,Y&2&3\\
+            MUL R1,R2&2&3\\
+            STORE X,R3&2&3\\
+            STORE X,R1&6&3\\
+            INT R2&6&3\\
+            STORE Y,R2&6&4\\
+            STORE Y,R4&6&9\\
+            \hline
+        \end{tabular}
+    \end{table}
+    \newpage
+    \section{5.26}
+    \noindent 我们设立2个全局变量,用来记录精灵和驯鹿的个数:
+    \begin{itemize}
+        \item elves = 0,精灵数
+        \item deers = 0,驯鹿数
+    \end{itemize}
+    \noindent 我们设立1个私用信号量,用来实现进程之间的同步:
+    \begin{itemize}
+        \item wakeup = 0,代表圣诞老人是否醒来
+        \item solved = 0,代表精灵问题被解决
+    \end{itemize}
+    和4个公用信号量,用来实现进程之间的互斥:
+    \begin{itemize}
+        \item elfmutex = 1,用于精灵出问题的互斥锁
+        \item elfproblem = 1,用于三个精灵出问题后的互斥
+        \item deermutex = 1,用于驯鹿回北极的互斥锁
+        
+    \end{itemize}
+    它们用来3个进程(不分顺序):
+    \begin{itemize}
+        \item \emph{圣诞老人进程}Santa\_Claus()
+        \item \emph{小精灵进程}Elf()
+        \item \emph{驯鹿进程}Reindeer()
+    \end{itemize}
+    这些进程中有函数:
+    \begin{itemize}
+        \item \emph{睡觉}sleep()
+        \item \emph{起床}wakeup()
+        \item \emph{组装雪橇}sleigh()
+        \item \emph{解决问题}solve()
+        \item \emph{做玩具}toy()
+        \item \emph{遇到问题}problem()
+        \item \emph{出精灵洞}leave()
+        \item \emph{从热带回来}back()
+        \item \emph{到达北极}arrive()
+    \end{itemize}
+    抽象代码如下:
+    \begin{lstlisting}
+    Santa\_Claus(){
+        sleep();
+        semWait(wakeup);
+        if(deers == 9){
+            sleigh()
+            deers = 0;
+        }
+        else if(elves == 3){
+            solve();
+            semSignal(solved);
+        }
+    }
+    Elf(){
+        toy();
+        if(problem()){
+            semWait(elfproblem);
+            semWait(elfmutex);
+            elves++;
+            if(elves == 3){
+                semSignal(wakeup);
+                leave()
+            }
+            else{
+                semSignal(elfproblem)
+            }
+        }
+        semWait(solved);
+        semWait(elfmutex);
+        elves--;
+        if(elves == 0){
+            semSignal(elfproblem);
+        }
+    }
+    Reindeer(){
+        semWait(deermutex);
+        if(back()){
+            deers++;
+            if(deers == 9){
+                semSignal(wakeup);
+            }
+        }
+    }
+    \end{lstlisting}
+    \section{5.28}
+    若有多个读者,有可能导致写入进程饿死。
+\end{document}

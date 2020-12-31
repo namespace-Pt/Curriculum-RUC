@@ -1,0 +1,152 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{dirtree}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage[a4paper]{geometry} 
+\usepackage{amsmath,amsthm,mathtools}
+\usepackage{mathtools}
+\usepackage{diagbox}
+\usepackage{multirow,makecell}
+\usepackage{float}
+\usepackage{url}
+\usepackage[nottoc]{tocbibind}
+\usepackage{float}
+\newcommand{\refe}[1]{Eq.\ref{#1}}
+\newcommand{\reft}[1]{Theory.\ref{#1}\ }
+\newcommand{\reff}[1]{图\ref{#1}\ }
+\newtheorem{theorem}{Theory}[section]
+\geometry{bottom=2cm,left=1cm,right=1cm}
+
+\title{个人作业三}
+\author{张配天-2018202180}
+\begin{document}
+\maketitle
+% \section{某公司是一家美国公司，1年后公司需要3 000 00 0澳大利亚元支付货款。美元年利率为7\%，而澳大利亚元的年利率为12\%，澳大利亚即期汇率为1澳元=0.85美元，一年远期汇率为1澳元=0.81美元。}
+% \subsection{如果公司用货币市场套期保值，如何操作?}
+% 借入美元，用即期汇率兑换为澳大利亚元，之后在澳大利亚元市场进行投资，1年后用得到的澳大利亚元支付。
+% \subsection{该公司现在需要借入多少美元？1年后偿还贷款所需的美元金额是多少？}
+% 设借入$x$美元，则有
+
+% \begin{align}
+%     \frac{x}{0.85}\cdot (1+12\%) &= 3000000\\
+%     \omega = x(1+7\%)
+% \end{align}
+% \par 解得$w\approx2436160.7$
+% \subsection{该公司用货币市场套期保值好还是用远期合约套期保值好？}
+% \begin{equation*}
+%     \omega' = 3000000*0.81 = 2430000
+% \end{equation*}
+% \par 远期合约套期保值
+% \section{某公司三个月后会收到2 000 000瑞士法郎。该公司认为三个月的远期汇率就是未来即期汇率的准确预测。三个月瑞士法郎的远期汇率为1瑞士法郎=0.68美元。现在单位瑞士法郎卖出期权的行权价为1瑞士法郎= 0.69美元，期权费1瑞士法郎= 0.03美元。通过计算说明该公司应选择卖出期权套期保值还是不套期保值？}
+% \subsection{不套期保值}
+% \begin{equation*}
+%     \omega_1 = 2000000*0.68 = 1360000
+% \end{equation*}
+% \subsection{期权套期保值}
+% \begin{equation*}
+%     \omega_2 = 2000000*(0.69-0.03) = 1320000
+% \end{equation*}
+% \par 不套期保值
+\section{吉姆是一家美国体育出口公司的业主，因出口产品约在一个月后会收到约10 000英镑。吉姆很关心汇率风险，因为他预计有两种可能性：（1）下月英镑会贬值3\%，概率为70\%；（2）下月英镑会升值2\%，概率为30\%。吉姆注意到当前英镑的即期汇率为1.65美元，一个月远期汇率约为1英镑=1.645美元。同时，吉姆可在证券公司的场外市场买入卖出期权，其行权价为1英镑=1.645美元，期权费为1英镑=0.025美元，一个月后到期。}
+\subsection{若该公司对一个月后收到的应收账款不进行套期保值，请计算两种汇率情形下收到的美元金额。}
+使用即期汇率兑换英镑为美元，两种情况下分别有
+    \begin{equation*}
+        \omega_1 = 10000 * 1.65(1-0.03) = 15956.5
+    \end{equation*}
+    \begin{equation*}
+        \omega_2 = 10000 * 1.65(1 + 0.02) = 16779
+    \end{equation*}
+    \par 期望有\begin{equation*}
+        \omega_3 = 0.7 * \omega_1 + 0.3 * \omega_2 = 16203.25
+    \end{equation*}
+\subsection{若该公司用卖出期权对一个月后收到的应收账款套期保值，请计算两种情形下收到的美元金额}
+如果对应即期汇率低于行权价，则行权；否则不行权，两种情况下分别有
+    \begin{equation*}
+        \omega_4 = 10000 *(1.645-0.025) = 16200
+    \end{equation*}
+    \begin{equation*}
+        \omega_5 = 10000 * (1.645* (1 + 0.02) - 0.025) = 16529
+    \end{equation*}
+    \par 期望有
+    \begin{equation*}
+        \omega_6 = 0.7 * \omega_4 + 0.3 * \omega_5 = 16289.7
+    \end{equation*}
+\subsection{如果用远期交易，结果又如何}
+使用远期汇率卖出英镑，两种情况下分别有    
+\begin{equation*}
+        \omega_7 = 10000 *1.645 = 16450
+    \end{equation*}
+\subsection{公司应该如何操作}
+由于$\omega_7 > \omega_6 > \omega_3$，因此使用远期汇率套期保值。
+
+\section{某美国公司180天后需要200 000英镑，现考虑用以下四种方式筹集资金：（1）远期套期保值（2）货币市场套期报值（3）期权套期保值（4）不套期保值。该公司的分析师取得以下信息，可用于评价不同方案。（1）英镑的即期汇率1英镑=1.50美元；（2）180天英镑的远期汇率为1英镑=1.47美元；（3）180天英镑买入期权的行权价为1英镑=1.48美元，期权费为1英镑=0.03美元；（4）180天英镑卖出期权费的行权价为1英镑=1.49美元，期权费为1英镑=0.02美元；（5）预计180天后的即期汇率、利率如表4所示。请说明该公司应选择何种方案？}
+\begin{enumerate}
+    \item \textbf{远期套期保值：}，使用远期汇率兑换相应英镑，应支出
+    \begin{equation*}
+        \omega_1 = 200000 * 1.47 = 294000
+    \end{equation*}
+    \item \textbf{货币市场套期保值：}借入$x$美元，用即期汇率兑换为英镑，之后在英镑市场进行投资，180天后用得到的英镑支付账款，且将当前借入的美元
+    \begin{align*}
+        \frac{x}{1.5} \cdot (1+4.5\%) &\approx 287081.34\\
+        \omega_2 = x*(1+5\%) &\approx 301435.41
+    \end{align*}
+    \item \textbf{期权套期保值：}如果即期汇率高于行权价，则行权，否则不行权，每一种情况下有
+        \begin{equation*}
+            \omega_3 = 20000 * (1.48+0.03) = 302000
+        \end{equation*}
+         \begin{equation*}
+            \omega_4 = 20000 * (1.43+0.03) = 292000
+        \end{equation*}
+         \begin{equation*}
+            \omega_5 = 20000 * (1.46+0.03) = 298000
+        \end{equation*}
+    \par 因此有期望付款\begin{equation*}
+        \omega_6 = 0.2 * \omega_3 + 0.7 * \omega_4 + 0.1 * \omega_5 = 297200
+    \end{equation*}
+    \item \textbf{不套期保值}
+        \begin{equation*}
+            \omega_7 = 200000 * (1.43*0.2 + 1.46 * 0.7 +1.52*0.1) = 292000
+        \end{equation*}
+    
+    \par 因为$\omega_7 < \omega_1 < \omega_6 < \omega_2$，因此可以选择不套期保值。    
+\end{enumerate}
+\section{一家美国的跨国公司在美国和德国从事经营。为了评估经济风险，它汇编了下列资料。
+对美国的销售收入在一定程度上受德国马克的影响，因为来自德国出口上的竞争非常激烈。它依据表6的汇率情形预测在美国的销售收入。
+对德国的销售以马克计价；预计马克收入为6亿马克。
+预计来自美国采购原材料的销售成本为2亿美元，来自德国的为1亿马克。
+估计固定经营与管理费用为3 000万美元（不包括利息费用）。估计可变经营与管理费用为销售收入总额（包括德国销售收入折算为美元）的20\%。
+估计美元贷款的利息费用为2 000万美元；公司没有马克贷款。
+}
+\subsection{依据三种可能汇率情形，编制该公司的预测利润表}
+\begin{table}[H]
+    \centering
+    \begin{tabular}[]{lccc}
+        \hline
+        汇率&0.48美元&0.50美元&0.54美元\\
+        \hline
+        销售收入（百万美元）：&\\
+        美国：&100&105&110\\
+        德国：&288&300&324\\
+        合计：&388&405&434\\
+        \hline
+        销售成本（百万美元）：&\\
+        美国：&200&200&200\\
+        德国：&48&50&54\\
+        合计：&248&250&254\\
+        \hline
+        销售毛利（百万美元）：&140&155&180\\
+        \hline
+        固定部分及经营及管理费用：（百万美元）：&30&30&30\\
+        变动部分：&77.6&81&86.8\\
+        合计：&107.6&111&116.8\\
+        \hline
+        税前利润（百万美元）：&32.4&44&63.2\\
+        \hline
+    \end{tabular}
+\end{table}
+\subsection{通过计算说明公司经营风险的大小}
+
+
+\end{document}

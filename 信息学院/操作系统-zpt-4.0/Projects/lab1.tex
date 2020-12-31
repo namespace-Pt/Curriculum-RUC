@@ -1,0 +1,182 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{dirtree}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage[a4paper]{geometry} 
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{diagbox}
+\usepackage{multirow,makecell}
+
+\title{Lab1-Shell编程}
+\author{张配天-2018202180}
+\date{\today}
+\geometry{bottom=2cm}
+\lstset{
+ columns=fixed,       
+ numbers=left,                                        % 在左侧显示行号
+ numberstyle=\tiny\color{gray},                       % 设定行号格式
+ basicstyle=\ttfamily,
+ frame=none,                                          % 不显示背景边框
+ backgroundcolor=\color[RGB]{245,245,244},            % 设定背景颜色
+ keywordstyle=\color[RGB]{40,40,255},                 % 设定关键字颜色
+ numberstyle=\footnotesize\color{darkgray},           
+ commentstyle=\color{gray}\ttfamily,                % 设置代码注释的格式
+ stringstyle=\rmfamily\slshape\color[RGB]{128,0,0},   % 设置字符串格式
+ showstringspaces=false,
+ breaklines=true,
+ language=python
+}
+\begin{document}
+    \kaishu
+    \maketitle
+    \thispagestyle{headings}
+    \tableofcontents
+    %\pagestyle{headings}
+    \newpage
+    \section{实验目的}
+    编写一个 shell 脚本程序，功能是取出指定目录中的所有 C 语言源程序文件，并对其编译和执行。 
+    \section{实验方法}
+    注意到ubuntu的特性，在/home/目录下vim的新文件也不是全权限，因此先自己实现了一个小脚本myvi保存在/usr/bin/下，
+    用来创造全权限的文件并转至vim编辑\\
+    \emph{展示代码如下：}
+    \begin{lstlisting}[] 
+    fileName="$1"
+    echo "FILE:${fileName}"
+    touch $fileName
+    chmod 777 $fileName
+    vim $fileName
+    \end{lstlisting} 
+
+    \section{程序清单}
+    \dirtree{%
+        .1 /. 
+        .2 /home. 
+        .3 /pt. 
+        .4 /shell.
+        .5 lab1.sh.  
+        .4 /c. 
+        .5 /directory.
+        .6 5.c. 
+        .5 1.c. 
+        .5 2.c. 
+        .5 3.c. 
+        .5 4.c.
+        .5 NoneC.txt.
+        .4 /桌面.
+        .5 outputHeart.c.
+        .5 text.txt.
+        .5 sad.py.
+    }
+    \newpage
+    \paragraph{其中}
+    \begin{itemize}
+        \item /桌面 , /shell , /c , /directory均为目录
+        \item /shell目录下保存着可执行的Shell脚本lab1.sh
+        \item /c目录下保存着4个可编译.c文件，还保存着/directory目录，用来完成对遇到目录的特殊情况处理
+        \item /c目录下另有一个非C语言写成的NoneC.txt文件，用来完成对编译错误的特殊情况处理
+        \item /directory目录下保存着最后一个可编译的.c文件
+        \item /桌面目录下保存着可编译的outputHeart.c和不可编译的text.txt文件，将来可作为第二个参数传入脚本
+    \end{itemize}
+
+    \subsection{C程序运行结果}
+    %\begin{center}
+        1.c输出为“张”\par
+        2.c输出为“配”\par
+        3.c输出为“天”\par
+        4.c输出为“晚安”\par
+        5.c输出为由*组成的V字样\par
+        outputHeart.c输出心形图案\par
+        %\newpage
+    %\end{center}
+    \subsection{Shell脚本代码}
+    \begin{lstlisting}
+#定义编译链接的函数,将目录作为参数传递进入函数
+compile_run_C(){
+    #遍历传入目录下所有文件和目录
+    for file in $(ls $1) 
+    do  
+        #完整绝对路径
+        path="$1$file"
+        #判断是否是普通文件，如果是则进行编译链接
+        if [ -f $path ];then
+            exe=${file%.*}
+            gcc -W -o $exe $path
+            result=$?
+            #获取gcc返回值，若为0则代表编译成功
+            if [ $result -eq 0 ];then
+                ./$exe
+                rm $exe
+            #否则输出错误，即非c程序
+            else
+                echo "$path is not a C program"
+            fi
+        #若为目录，输出信息，同时递归继续进行该函数	
+        else
+            echo $path is a Directory
+            compile_run_C "$path/"
+        fi
+    done
+    return 0
+}
+#如果未传入参数，则输出需要更多参数
+if [ $# -eq 0 ]
+then
+    echo "This command requires more arguments"
+    fileDiction=$(pwd)  
+    echo "FIlE DIRECTION:$fileDiction"
+fi
+#获取全部传入参数的数组，针对每一个目录进行循环
+for DIR in $@ 
+do
+    #如果传入非目录，则输出错误信息
+    if [ ! -d "$DIR" ];then
+        echo "Sorry,directory $DIR does not exist"
+        exit 1
+    #否则进行编译链接
+    else
+        compile_run_C $DIR 
+    fi
+done
+        
+    \end{lstlisting}
+    \newpage
+    \section{实验结果}
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=15cm]{C:/PT_Latex/sources/lab1_1.png}
+        \caption{ubuntu终端运行结果}
+    \end{figure}
+
+    \paragraph{可见：}
+    \begin{itemize}
+        \item 将/home/pt/c/和/home/pt/桌面/作为参数传入脚本，运行
+        \item 成功运行4个c程序并输出
+        \item 脚本检测到/home/pt/c/directory不是程序
+        \item 进入/home/pt/c/directory后成功运行5.c并输出
+        \item gcc编译报错，因为/home/pt/c/NoneC.txt不是c程序
+        \item 脚本输出信息/home/pt/c/NoneC.txt is not a C program
+        \item 进入第二个传入目录/home/pt/桌面/
+        \item 成功运行outputHeart.c并输出
+        \item gcc编译报错，因为/home/pt/桌面/text.txt不是c程序
+        \item 脚本输出信息/home/pt/桌面/text.txt is not a C program
+    \end{itemize}
+    \section{问题分析}
+    \subsection{出现的问题}
+    \begin{enumerate}[i.]
+        \item 对shell语言不熟悉导致各类语法错误，尤其是if else语句中忘记加入then、fi
+        \item 传入参数时\$*和\$@的区别？
+        \item 双引号什么时候必须加？
+        \item 如何禁止gcc内部输出编译错误的信息？
+    \end{enumerate}
+    
+    \subsection{解决办法}
+    \begin{enumerate}[i.]
+        \item 在菜鸟教程上自学shell语法并练习
+        \item 目前认知是\$*将参数作为一个字符串传入，\$@将参数作为数组传入
+        \item 暂时没有发现区别，似乎shell语言默认类型就是字符串？
+        \item 尚不明确
+    \end{enumerate}
+\end{document}
