@@ -1,0 +1,11 @@
+S->E
+E->TG
+G->+TG
+G->-TG
+G->e
+T->FH
+H->*FH
+H->/FH
+H->e
+F->(E)
+F->i

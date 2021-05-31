@@ -1,0 +1,10 @@
+\contentsline {section}{\numberline {1}实验内容}{2}{}%
+\contentsline {section}{\numberline {2}程序设计原理与方法}{2}{}%
+\contentsline {subsection}{\numberline {2.1}原理}{2}{}%
+\contentsline {subsection}{\numberline {2.2}方法}{2}{}%
+\contentsline {section}{\numberline {3}程序设计流程}{5}{}%
+\contentsline {subsection}{\numberline {3.1}和词法分析器的串联}{6}{}%
+\contentsline {section}{\numberline {4}程序设计清单}{6}{}%
+\contentsline {section}{\numberline {5}运行结果}{6}{}%
+\contentsline {section}{\numberline {6}程序使用说明}{7}{}%
+\contentsline {section}{\numberline {7}总结与完善}{8}{}%
