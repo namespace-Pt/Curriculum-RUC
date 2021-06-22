@@ -383,7 +383,9 @@ void Parser::parse(string INPUT="data/test.in", string OUTPUT="data/lex_result.o
                     }
                 }
 
+                // reduction
                 else{
+                    // pop off signals and states at the same time, which means one signal corresponding to one state
                     for(auto s=act->tail.crbegin();s!=act->tail.crend();s++){
                         signal = signals.front();
                         signals.pop_front();

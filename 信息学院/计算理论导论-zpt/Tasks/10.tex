@@ -1,0 +1,183 @@
+\documentclass{zpt}
+\title{计算理论作业10}
+\begin{document}
+\maketitle
+\newcommand{\rd}{\le_p}
+\section{}
+证明$IS\rd SAFEMARRIAGE(SM)$。设$E$为IS的一个实例, $G(V',E')$是$E$的图, 共$n$个节点。
+
+构造$G$, 有$2n$个节点, 对于$G$中节点$u_i,v_i$, 其由$G'$中的$p_i$得到, 且若$p_i\in S$, 则只需$E$满足$IS$当且仅当$G$有大小为$k$的SM。
+
+若$E$满足IS, 由于$p_i\in V'$在$V$中被分裂为$u_i,v_i$, 对$p_i\in S$, $u_i,v_i$相连, 由于$|S| = k$, 那么$G$中任意连通分量的节点数为2或1, 因此$G$有大小为$k$的SM。将$u_i,v_i$合并为$p_i$, 之后将$p_*$连伟一个分量, 就能得到$E'$。
+
+得证。
+
+\section{}
+\subsection{}
+先证DS是NP的, 对于一个验证$V$, 对于输入$\langle\langle G,k\rangle,S\rangle$, 检查$S$是否为$G$节点的子集且$|S|<k$, 检查$G$中任意节点是否在$S$中有一个邻居, 如果通过则接受；因此DS为NP。
+\subsection{}
+再整DS是NP-hard, 证明3SAT$\rd$DS。设$E$是3AT的一个实例, 有n个变量和m个项, 构造图G, 有3n+m个节点, 其中标记为$x_i,\bar{x_i},y_i$, 他们互相连结构成三角形, $c_i$与其组成组相连, 这个构造在线性时间内完成。
+
+假设E是满足3SAT的, 则存在一组赋值为$c_i$均为true, 构造S集, 若$x_i$为true, 则$x_i\in S$, 有$|S|=n$。因此tS满足DS集的条件, 则G有一个最大为$n$的DS集。
+
+\section{}
+\subsection{}
+先证明 subgraph isomorphism属于NP
+
+给定G1的子图G2'以及G2‘和G2之间结点的同态映射关系，可以在多项式时间内验证G2‘于G2是否同构，首先判断G2‘和G2的映射关系是否是双射，再看G2‘中每一个(u,v)，是否有对应的(f(u),f(v))属于G2
+
+\subsection{}
+证明CLIQUE问题可以规约到subgraph isomorphism
+
+f(<G,k>) = <G1,G2>
+
+假设CLIQUE问题的输入是<G, k>
+
+令G2是一个有k个结点的完全图，G1=G，那么问题“G1是否包含一个于G2同构的子图”其实就是G是否包含一个大小为k的clique
+
+显然，如果<G,k>属于CLIQUE，那么<G1,G2>属于subgraph isomorphism
+
+显然，如果<G,k>不属于CLIQUE，那么<G1,G2>不属于subgraph isomorphism
+
+\section{}
+\subsection{}
+TRUE-SAT问题属于NP
+
+使用NP问题的另一个定义。
+
+考虑问题 $R=\{(F,X)|\text{F is a boolean formula, X are variables, F(X)=true}\}$
+
+令y为variable的一组赋值，y满足$|y|\le |x|^k$，可以在多项式时间内判定y能否使得该boolean formula F为true(将赋值代入，计算一下结果)，则<x, y>属于R可在多项式时间内判定
+
+\subsection{}
+下面证明$3-SAT\le_m TRUE-SAT$
+
+ “YES to YES”
+
+如果存在一组variable可以满足该3-SAT问题
+
+- 令Y=false，由该组variable满足SAT可知，G中含有4个variable的clause都是true，并且由于Y==false，($\neg Y\cup X_i$)均为true，所以至少有Y为false的一组variable使得G=true，所以构造出的G属于TRUE-SAT
+
+“NO to NO“
+
+如果存在一组variable满足构造出的TRUE-SAT
+
+那么把满足该TRUE-SAT问题的variable中$X_i$的赋值都赋给对应的SAT问题，这组variable可以使得该SAT问题为true
+
+\section{}
+\subsection{a.}
+
+给定一个deterministic single-tape TM M0在多项式时间内判定问题SPATH
+
+Run M0 on input <G,a,b,k>:
+
+\begin{itemize}
+    \item 用M0模拟Dijkstra算法，起点设置为a
+    \item 运行完Dijkstra算法以后，看a和b之间的最短路径的长度是否≤k，如果小于等于k，就accept，否则reject
+\end{itemize}
+
+\subsection{b.}
+
+\subsubsection{}
+首先证明LPATH属于NP
+给定一条从a到b到简单路径，去计数该路径到长度（显然多项式时间复杂度），如果长度大于等于k，那么<G,a,b,k>属于LPATH
+
+\subsubsection{}
+下面证明LPATH属于NP-HARD
+
+将哈密顿路径问题规约到LPATH问题
+
+记哈密顿问题的输入为<G, s, t>
+
+f(<G, s, t>) = <G, a, b, k>
+
+\begin{itemize}
+    \item 将图G中的s点记作a点，将t点记作b点
+    \item 令k=n-1（n为图G中点的个数）
+\end{itemize}
+下面说明“YES to YES“
+
+如果G中s到t之间存在哈密顿路径，那么该路径的长度一定为n-1（因为只能经过每个点一次），那么该路径就是s到t之间长度为n-1的简单路径
+
+“NO to NO“
+
+如果G中不存在s到t之间到哈密顿路径，即a和b之间不存在一条长度为n-1的简单路径。同时这也说明了a和b之间不存在一条长度大于n的简单路径，因为如果长度大于n，而图中只有n个点，势必会有至少一个点在路径中出现了两次，则该路径不是简单路径。综合上述，如果G中不存在s到t之间到哈密顿路径，即a和b之间不存在一条长度大于等于n-1的简单路径。
+
+\section{}
+\subsection{}
+首先证明这是一个NP的问题
+
+  对于PUZZLE问题，如果给定一个卡牌的排列方式，我们显然可以在多项式时间内判定该解是否属于PUZZLE，因此PUZZLE是NP
+
+\subsection{}
+下面将3SAT规约到PUZZLE
+
+对于一个给定的boolean formula $\phi$, 将它转化为下面这些卡牌：
+
+令$x_1,x_2...x_m$是$\phi$的variable，令$c_1,c_2...c_l$是clause
+
+如果z是$c_j$的literal，记作$z\in c_j$
+
+将每一张卡牌的两列洞记作column1,column2，每一列有l个可能的洞
+
+将column1在左边column2在右边的情况，记作卡牌正面向上，反之为背面向上
+
+下面规约形式化的表示为
+
+F = "On input $\phi$:
+
+\begin{enumerate}
+    \item Create one card for each $x_i$ as follows: in column 1 punch out all holes except any hole j such that $x_i\in c_j$; in column 2 punch out all holes except hole j' such that $\overline{x_i}\in c_j$
+    \item Create an extra card with all holes in column 1 punched out and no hole in column 2 punched out
+    \item Output the description of  cards created."
+\end{enumerate}
+
+"YES to YES"
+
+给定一个满足$\phi$的赋值方式，用下面的方式构造PUZZLE的解。
+
+For each $x_i$ assigned True(False), put its card face up(down), and put the extra card face up. Then, every hole in column 1 is covered because the associated clause has a literal assigned True, and every hole in column 2 is covered by the extra card.
+
+"NO to NO"
+
+给定一个PUZZLE的解，用下面的方式构造满足$\phi$的赋值方式。
+
+Flip the deck so that the extra card covers column 2. Assign the variables according to the corresponding cards, True for up and False for down. Because every hole in column 1 is covered, every clause must contain at least one literal assigned True in this assignment. Hence it satisfies $\phi$.
+
+\section{}
+\subsection{}
+证明3-color是NP
+
+  给定一种给图中每一个点的染色方式，很容易在多项式时间内验证这是否是满足3color问题的染色方式（只需要遍历每一个结点，并比较其和邻居结点的染色方式是否相同）
+
+\subsection{}
+下面证明$3-SAT\le_m 3-COLOR$
+
+对于一个给定的3cnf boolean formula $\phi=c_1\wedge c_2\wedge c_3\wedge ...\wedge c_l$,
+
+令$x_1,x_2...x_m$是$\phi$的variable, $c_i$是clauses
+
+建立一个图$G_\phi$ containing 2m+ 6l+ 3 nodes:
+\begin{itemize}
+    \item 2 nodes  for each variable
+    \item 6 nodes for each clause
+    \item and 3 extra nodes
+\end{itemize}
+
+用hint中的subgraph gadget来描述该图
+
+$G_\phi$  contains a variable gadget for each variable xi, two OR-gadgets for each clause, and one palette gadget.
+
+The four bottom nodes of the OR-gadgets will be merged with other nodes in the graph, as follows.
+
+Label the nodes of the palette gadget T, F, and R. Label the nodes in each variable gadget + and — and connect each to the R node in the palette gadget. In each clause, connect the top of one of the OR-gadgets to the F node in the palette. Merge the bottom node of that OR-gadget with the top node of the other OR-gadget. Merge the three remaining bottom nodes of the two OR-gadgets with corresponding nodes in the variable gadgets so that if a clause contains the literal xi, one of its bottom nodes is merged with the + node of xi whereas if the clause contains the literal $\overline{x_i}$, one of its bottom nodes is merged with the — node of xi.
+
+"YES to YES"
+
+The three colors are called T, F, and R. Color the palette with its labels. For each variable, color the + node T and the — node F if the variable is True in a satisfying assignment; otherwise reverse the colors. Because each clause has one True literal in the assignment, we can color the nodes of the OR-gadgets of that clause so that the node connected to the F node in the palette is not colored F. Hence we have a proper 3-coloring.
+
+"NO to NO"
+
+If we start out with a 3-coloring, we can obtain a satisfying assignment by taking the colors assigned to the + nodes of each variable. Observe that neither node of the variable gadget can be colored R, because all variable nodes are connected to the R node in the palette. Furthermore, if both bottom nodes of an 0R-gadget are colored F, the top node must be colored F, and hence, each clause contain a true literal. Otherwise, the three bottom nodes that were merged with variable nodes would be colored F, and then both top nodes would be colored F, but one of the top nodes is connected to the F node in the palette.
+
+\end{document}

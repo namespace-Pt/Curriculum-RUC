@@ -1,0 +1,46 @@
+\documentclass{zpt}
+\title{作业1}
+\begin{document}
+\maketitle
+\section{}
+\begin{itemize}
+    \item 相同点: 都是计算机网络的体系结构, 都分层；
+    \item 不同点: TCP/IP仅有4层, OSI有7层, OSI模型中的传输层保证了包的传输, TCP/IP的传输层没有保证包的传输。
+\end{itemize}
+
+\section{}
+不同, 报文流要保证数据的边界, 而字节流只是一连串数据, 没有边界。
+
+\section{}
+\subsection{}
+发送时延为$T_1$, 传播时延为$T_2$, \begin{align}
+    T_1 &= \frac{10^7\mathrm{bit}}{10^5\mathrm{bit/s}} = 100s\\
+    T_2 &= \frac{10^6 m}{2*10^8\mathrm{m/s}} = 5ms
+\end{align}
+\subsection{}
+发送时延为$T_1$, 传播时延为$T_2$, \begin{align}
+    T_1 &= \frac{10^3\mathrm{bit}}{10^9\mathrm{bit/s}} = 1\mu s\\
+    T_2 &= \frac{10^6 m}{2*10^8\mathrm{m/s}} = 5ms
+\end{align}
+
+\section{}
+分帧封装, 因为在真正的网络中数据要按层的顺序传输, 先经过发送端的网络层, 再经过数据链路层, 因此需要分帧封装。
+
+\section{}
+\begin{equation}
+    \eta = \frac{nh}{M + nh}
+\end{equation}
+
+\section{}
+不同, 报文流要保证数据的边界, 而字节流只是一连串数据, 没有边界。
+
+\section{}
+上网查询加州距离纽约大约$4000\mathrm{km} = 4*10^{6}\mathrm{m}$, 则传播时延
+\begin{equation}
+    T = \frac{s}{v} = \frac{4*10^6}{2*10^8} = 0.02\mathrm{s} = 2*10^4 \mathrm{\mu s}
+\end{equation}
+则交换时间仅为传播时延的$1\%$, 因此不是主要影响因素。
+
+\section{}
+会影响$k+1$层的服务, 不会影响$k-1$层的服务, 因为只有高层使用低层的服务。
+\end{document}
